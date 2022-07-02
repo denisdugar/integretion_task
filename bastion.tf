@@ -12,6 +12,7 @@ resource "aws_instance" "bastion" {
     command = <<-EOT
     echo "$(aws ec2 describe-instances --region us-east-1 --instance-ids $(aws autoscaling describe-auto-scaling-instances --region us-east-1 --output text \
 --query "AutoScalingInstances[?AutoScalingGroupName=='${aws_autoscaling_group.wordpress_autoscaling.name}'].InstanceId") --query "Reservations[].Instances[].PrivateIpAddress" --output text)" > ./ansible/hosts.txt
+    sed -i.bak 's/\t/\n/g' ./ansible/hosts.txt
     sed -i 's/-q ubuntu@.* -o I/-q ubuntu@${aws_instance.bastion.public_ip} -o I/' ./ansible/group_vars/all
     sed -i "s|http://.*:9200/_cluster/|http://${aws_instance.master[0].private_ip}:9200/_cluster/|" http_checker.py
     rm code.zip

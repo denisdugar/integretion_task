@@ -29,7 +29,7 @@ def send_message(message):
 
 def lambda_handler(event, context):
     try:
-        url = "http://1111/_cluster/health?pretty=false"
+        url = "http://1111:9200/_cluster/health?pretty=false"
         r = requests.get(url)
         y = json.loads(json.dumps(r.json()))
         if y["number_of_nodes"] == 6:
