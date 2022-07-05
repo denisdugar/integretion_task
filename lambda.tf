@@ -40,6 +40,16 @@ resource "aws_iam_policy" "iam_policy_for_lambda" {
         {
             "Effect": "Allow",
             "Action": [
+                "cloudwatch:PutMetricAlarm",
+                "cloudwatch:PutMetricData"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "SNS:Publish"
             ],
             "Resource": [
