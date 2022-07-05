@@ -55,3 +55,7 @@ data "template_file" "user_data_logstash" {
 data "template_file" "user_data_kibana" {
   template = "${file("user_data_kibana.sh")}"
 }
+
+data "aws_sns_topic" "http_checker_error" {
+  name = "http_checker_error"
+}

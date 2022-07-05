@@ -27,7 +27,18 @@ def put_metric(count):
     return 0
 
 def lambda_handler(event, context):
-    url = "http://10.0.11.204:9200/_cluster/health?pretty=false"
-    r = requests.get(url)
-    y = json.loads(json.dumps(r.json()))
-    put_metric(y["number_of_nodes"])
+    try:
+        url = "http://10.0.11.161:9200/_cluster/health?pretty=false"
+        r = requests.get(url)
+        y = json.loads(json.dumps(r.json()))
+        put_metric(y["number_of_nodes"])
+        return {
+            'statusCode': 200,
+            'body': json.dumps(r.status_code)
+        }
+    except:
+        put_metric(0)
+        return {
+            'statusCode': 200,
+            'body': json.dumps("not connection")
+        }
